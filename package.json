@@ -1,11 +1,10 @@
 {
-  "name": "gulp-react-webapp",
+  "name": "freeCodeCamp-zipline-twitchtv",
   "version": "0.1.0",
   "description": "Starting Point for Projects",
   "main": "gulpfile.js",
   "scripts": {
-    "prestart": "gulp build",
-    "start": "gulp",
+    "start": "webpack-dev-server --inline --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
@@ -14,8 +13,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "react": "^0.14.6",
-    "react-dom": "^0.14.6"
+    "jquery": "^2.2.0",
+    "materialize-css": "^0.97.5"
   },
   "devDependencies": {
     "babel-core": "^6.4.0",
@@ -26,21 +25,21 @@
     "babel-preset-es2015": "^6.3.13",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.15.0",
-    "marked": "^0.3.5",
-    "radium": "^0.16.2",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
     "webpack": "^1.12.11",
     "webpack-dev-server": "^1.14.1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jnmorse/gulp-react-webapp.git"
+    "url": "https://github.com/jnmorse/freeCodeCamp-zipline-twitchtv.git"
   },
   "keywords": [
     "react",
     "webpack"
   ],
   "bugs": {
-    "url": "https://github.com/jnmorse/gulp-react-webapp/issues"
+    "url": "https://github.com/jnmorse/freeCodeCamp-zipline-twitchtv/issues"
   },
-  "homepage": "https://github.com/jnmorse/gulp-react-webapp#readme"
+  "homepage": "https://github.com/jnmorse/freeCodeCamp-zipline-twitchtv#readme"
 }
