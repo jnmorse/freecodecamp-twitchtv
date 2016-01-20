@@ -1,4 +1,5 @@
-// var path = require('path');
+var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
   entry: [
@@ -6,14 +7,15 @@ module.exports = {
   ],
   output: {
     path: __dirname,
-    filename: 'bundle.js'
+    filename: 'app.js'
   },
   devtool: 'source-map',
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader'
+        exclude: /node_modules/,
+        loaders: ['babel-loader']
       }
     ]
   }

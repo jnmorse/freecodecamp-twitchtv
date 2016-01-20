@@ -1,15 +1,19 @@
-/* eslint-disable no-unused-vars */
-/**
- * Added Rule to disable eslint complaining about React being unused
- * Is required for ReactDOM
- */
-var React = require('react');
-// import React from 'react';
-/* eslint-enable no-unused-vars */
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TwitchStreamers from './components/twitchstreamers/main.jsx';
 
-// import ReactDOM from 'react-dom';
-var ReactDOM = require('react-dom');
+var channels = [
+  {id: 1, name: 'freeCodecamp'},
+  {id: 2, name: 'OgamingSC2'},
+  {id: 3, name: 'storbeck'},
+  {id: 4, name: 'terakilobyte'},
+  {id: 5, name: 'habathcx'},
+  {id: 6, name: 'RobotCaleb'},
+  {id: 7, name: 'thomasballinger'},
+  {id: 8, name: 'noobs2ninjas'},
+  {id: 9, name: 'beohoff'},
+  {id: 10, name: 'boris_chantel'},
+  {id: 11, name: 'ancelak' }
+];
 
-// import Main from './components/main.jsx';
-
-ReactDOM.render(<Main />, document.getElementById('main'));
+ReactDOM.render(<TwitchStreamers channels={channels} />, document.getElementById('app'));
