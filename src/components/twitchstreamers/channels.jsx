@@ -1,4 +1,5 @@
 import React from 'react';
+import Channel from './channel.jsx';
 
 /* global $ */
 export default React.createClass({
@@ -57,14 +58,49 @@ export default React.createClass({
     }.bind(this));
   },
 
+  filterOnlineChannels: function (channel) {
+    if (Boolean(channel.data.stream)) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  filterOfflineChannels: function (channel) {
+    if (channel.data.stream === null) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  listChannels: function (channel) {
+    return (
+      <Channel key={channel.id} name={channel.name} data={channel.data} />
+    );
+  },
+
   render: function () {
     /**
      * Title case display state
      * @var display
      */
     var display = this.state.display.toLowerCase().split('');
+
     display[0] = display[0].toUpperCase();
     display = display.join('');
+
+    var channelList = this.state.channels.map(this.listChannels);
+
+    if (this.state.display === 'online') {
+      channelList = this.state.channels
+        .filter(this.filterOnlineChannels)
+        .map(this.listChannels);
+    } else if (this.state.display === 'offline') {
+      channelList = this.state.channels
+        .filter(this.filterOfflineChannels)
+        .map(this.listChannels);
+    }
 
     return (
       <section>
@@ -84,6 +120,10 @@ export default React.createClass({
           <header>
             <h2>{display} Channels</h2>
           </header>
+
+          <div>
+            {channelList}
+          </div>
         </section>
       </section>
     );
