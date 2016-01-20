@@ -3,13 +3,13 @@
  * Added Rule to disable eslint complaining about React being unused
  * Is required for ReactDOM
  */
-import React from 'react';
+var React = require('react');
+// import React from 'react';
 /* eslint-enable no-unused-vars */
 
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
+var ReactDOM = require('react-dom');
 
-var document = window.document;
-
-import Main from './components/main.jsx';
+// import Main from './components/main.jsx';
 
 ReactDOM.render(<Main />, document.getElementById('main'));
