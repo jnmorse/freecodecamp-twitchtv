@@ -8,12 +8,18 @@ export default React.createClass({
       display: 'all',
       online: [],
       offline: [],
-      deleted: []
+      deleted: [],
+      showStream: false
     };
   },
 
+  stream: '',
+
   showAll: function (e) {
     e.preventDefault();
+
+    $('#twitchstreamers-all').siblings().removeClass('active');
+    $('#twitchstreamers-all').addClass('active');
 
     this.setState({
       display: 'all'
@@ -23,6 +29,9 @@ export default React.createClass({
   showOnline: function (e) {
     e.preventDefault();
 
+    $('#twitchstreamers-online').siblings().removeClass('active');
+    $('#twitchstreamers-online').addClass('active');
+
     this.setState({
       display: 'online'
     });
@@ -30,6 +39,9 @@ export default React.createClass({
 
   showOffline: function (e) {
     e.preventDefault();
+
+    $('#twitchstreamers-offline').siblings().removeClass('active');
+    $('#twitchstreamers-offline').addClass('active');
 
     this.setState({
       display: 'offline'
@@ -134,9 +146,31 @@ export default React.createClass({
     }
   },
 
+  showStream: function (stream) {
+    if (this.state.showStream === false) {
+      this.setState({
+        showStream: true
+      });
+
+      this.stream = stream();
+    } else {
+      this.setState({
+        showStream: false
+      });
+
+      this.stream = null;
+    }
+  },
+
+  displayStream: function () {
+    return (
+      this.stream
+    );
+  },
+
   listChannels: function (channel) {
     return (
-      <Channel key={channel.id} name={channel.name} data={channel.data} />
+      <Channel key={channel.id} callback={this.showStream} name={channel.name} data={channel.data} />
     );
   },
 
@@ -173,12 +207,22 @@ export default React.createClass({
 
           <nav>
             <ul className="nav nav-pills">
-              <li className="active"><a onClick={this.showAll} href="#">All</a></li>
-              <li><a onClick={this.showOnline} href="#">Online <span className="badge">{this.state.online.length}</span></a></li>
-              <li><a onClick={this.showOffline} href="#">Offline <span className="badge">{this.state.offline.length}</span></a></li>
+              <li id="twitchstreamers-all" className="active">
+                <a onClick={this.showAll} href="#">All</a>
+              </li>
+
+              <li id="twitchstreamers-online">
+                <a onClick={this.showOnline} href="#">Online <span className="badge">{this.state.online.length}</span></a>
+              </li>
+
+              <li id="twitchstreamers-offline">
+                <a onClick={this.showOffline} href="#">Offline <span className="badge">{this.state.offline.length}</span></a>
+              </li>
             </ul>
           </nav>
         </div>
+
+        {this.displayStream()}
 
         <section className="col-md-12">
           <header>
