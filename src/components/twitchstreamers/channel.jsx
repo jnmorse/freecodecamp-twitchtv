@@ -15,7 +15,7 @@ export default React.createClass({
       return (
         <div className="embed-responsive embed-responsive-16by9">
           <iframe
-            src={'http://player.twitch.tv/?channel=' + stream.channel.name}
+            src={'https://player.twitch.tv/?channel=' + stream.channel.name}
             height="720"
             width="1280"
             frameborder="0"
@@ -44,7 +44,7 @@ export default React.createClass({
     var stream = this.props.data.stream;
 
     return (
-      <section className="col-sm-12">
+      <section className="col-sm-12 col-md-6">
         <div className="panel panel-default">
           <header>
             <h4 onClick={this.props.showStream}>{stream.channel.status} <small>{stream.game}</small></h4>
@@ -67,17 +67,13 @@ export default React.createClass({
   channelImage: function () {
     var data = this.props.data;
 
-    if (Boolean(data.profile_banner)) {
+    if (Boolean(data.logo)) {
       return (
-        <img src={data.profile_banner} style={{ maxHeight: '446px' }} alt="Profile Banner" className="img-responsive" />
-      );
-    } else if (Boolean(data.logo)) {
-      return (
-        <img src={data.logo} alt="Logo" style={{ maxHeight: '446px' }} className="img-responsive" />
+        <img src={data.logo} alt="Logo" style={{ maxHeight: '76px' }} className="img-responsive" />
       );
     } else {
       return (
-        <img src="http://placehold.it/1339x446" alt="Logo" className="img-responsive" />
+        <img src="http://placehold.it/76x76" alt="Logo" className="img-responsive" />
       );
     }
   },
@@ -86,15 +82,17 @@ export default React.createClass({
     var data = this.props.data;
 
     return (
-      <section className="col-xs-12 col-sm-6">
+      <section className="col-xs-12 col-md-2">
         <div className="panel panel-default">
           <header className="panel-heading">
 
             <h4><a target="_blank" href={data.url}>{data.display_name}</a></h4>
           </header>
           <figure>
-            {this.channelImage()}
-            <figcaption>Offline</figcaption>
+            <center>
+              {this.channelImage()}
+              <figcaption>Offline</figcaption>
+            </center>
           </figure>
         </div>
       </section>
@@ -103,12 +101,14 @@ export default React.createClass({
 
   showDeletedChannel: function () {
     return (
-      <section className="col-xs-12 col-sm-6">
+      <section className="col-xs-12 col-sm-2">
         <div className="panel panel-danger">
           <header className="panel-heading">
             <h4>{this.props.name}</h4>
           </header>
-          <p className="pannel-body">Deleted Account</p>
+          <center>
+            <p className="pannel-body">Deleted Account</p>
+          </center>
         </div>
       </section>
     );
