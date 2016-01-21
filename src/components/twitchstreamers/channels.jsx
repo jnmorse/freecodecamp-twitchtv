@@ -13,8 +13,6 @@ export default React.createClass({
     };
   },
 
-  stream: '',
-
   showAll: function (e) {
     e.preventDefault();
 
@@ -146,31 +144,9 @@ export default React.createClass({
     }
   },
 
-  showStream: function (stream) {
-    if (this.state.showStream === false) {
-      this.setState({
-        showStream: true
-      });
-
-      this.stream = stream();
-    } else {
-      this.setState({
-        showStream: false
-      });
-
-      this.stream = null;
-    }
-  },
-
-  displayStream: function () {
-    return (
-      this.stream
-    );
-  },
-
   listChannels: function (channel) {
     return (
-      <Channel key={channel.id} callback={this.showStream} name={channel.name} data={channel.data} />
+      <Channel key={channel.id} name={channel.name} data={channel.data} />
     );
   },
 
@@ -221,8 +197,6 @@ export default React.createClass({
             </ul>
           </nav>
         </div>
-
-        {this.displayStream()}
 
         <section className="col-md-12">
           <header>

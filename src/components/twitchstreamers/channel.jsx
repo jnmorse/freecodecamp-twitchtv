@@ -32,26 +32,7 @@ export default React.createClass({
   },
 
   toggleStream: function (e) {
-    var stream = this.props.data.stream;
     e.preventDefault();
-
-    this.props.callback(function () {
-      return (
-        <div>
-          <div className="embed-responsive embed-responsive-16by9">
-            <iframe
-              src={'http://player.twitch.tv/?channel=' + stream.channel.name}
-              height="720"
-              width="1280"
-              frameborder="0"
-              scrolling="no"
-              allowfullscreen>
-            </iframe>
-          </div>
-          <a onClick={this.toggleStream} href="#">Hide Video</a>
-        </div>
-      );
-    }.bind(this));
 
     this.setState({
       showVideo: this.state.showVideo ? false : true,
@@ -68,14 +49,12 @@ export default React.createClass({
           <header>
             <h4 onClick={this.props.showStream}>{stream.channel.status} <small>{stream.game}</small></h4>
           </header>
-
           <div className="pannel-body">
-            <img src={stream.preview.large} alt="Stream Preview" className="img-responsive" />
-          </div>
-
+              {this.onlineState()}
+            </div>
           <footer>
             <p>
-              <a onClick={this.toggleStream} className="pull-right" href="#">{this.state.showText}</a>
+              <a className="pull-right" onClick={this.toggleStream} href="#">{this.state.showText}</a>
               <a target="_blank" href={stream.channel.url}>
               {stream.channel.display_name}</a>
             </p>
