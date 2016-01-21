@@ -6,23 +6,31 @@ export default React.createClass({
   getInitialState: function () {
     return {
       display: 'all',
-      channels: []
+      online: [],
+      offline: [],
+      deleted: []
     };
   },
 
-  showAll: function () {
+  showAll: function (e) {
+    e.preventDefault();
+
     this.setState({
       display: 'all'
     });
   },
 
-  showOnline: function () {
+  showOnline: function (e) {
+    e.preventDefault();
+
     this.setState({
       display: 'online'
     });
   },
 
-  showOffline: function () {
+  showOffline: function (e) {
+    e.preventDefault();
+
     this.setState({
       display: 'offline'
     });
@@ -40,17 +48,69 @@ export default React.createClass({
 
         success: function (data) {
           if (this.isMounted()) {
-            var newState = this.state.channels.slice();
+            var online = this.state.online.slice();
+            var deleted = this.state.deleted.slice();
+            var newData = {};
+
+            if (Boolean(data.stream)) {
+              newData.id = channel.id;
+              newData.name = channel.name;
+              newData.data = data;
+
+              online.push(newData);
+
+              this.setState({
+                online: online
+              });
+            } else if (data.stream === undefined) {
+              newData.id = channel.id;
+              newData.name = channel.name;
+              newData.data = null;
+
+              deleted.push(newData);
+
+              this.setState({
+                deleted: deleted
+              });
+            } else {
+              $.ajax({
+                url: data._links.channel,
+                dataType: 'json',
+                crossDomain: true,
+                headers: {
+                  'Accept': 'application/vnd.twitchtv.v3+json'
+                },
+
+                success: function (channelData) {
+                  var offline = this.state.offline.slice();
+                  var newData = {};
+
+                  newData.id = channel.id;
+                  newData.name = channel.name;
+                  newData.data = channelData;
+
+                  offline.push(newData);
+
+                  this.setState({
+                    offline: offline
+                  });
+                }.bind(this)
+              });
+            }
+          }
+        }.bind(this),
+        error: function(a, b, c) {
+          if (c === 'status code 422') {
+            var deleted = this.state.deleted.slice();
             var newData = {};
 
             newData.id = channel.id;
             newData.name = channel.name;
-            newData.data = data;
 
-            newState.push(newData);
+            deleted.push(newData);
 
             this.setState({
-              channels: newState
+              deleted: deleted
             });
           }
         }.bind(this)
@@ -86,42 +146,46 @@ export default React.createClass({
      * @var display
      */
     var display = this.state.display.toLowerCase().split('');
+    var channelList = '';
 
     display[0] = display[0].toUpperCase();
     display = display.join('');
 
-    var channelList = this.state.channels.map(this.listChannels);
-
     if (this.state.display === 'online') {
-      channelList = this.state.channels
-        .filter(this.filterOnlineChannels)
+      channelList = this.state.online
         .map(this.listChannels);
     } else if (this.state.display === 'offline') {
-      channelList = this.state.channels
-        .filter(this.filterOfflineChannels)
+      channelList = this.state.offline
+        .map(this.listChannels);
+    } else {
+      channelList = this.state.online
+        .concat(this.state.offline)
+        .concat(this.state.deleted)
         .map(this.listChannels);
     }
 
     return (
-      <section>
-        <header>
-          <h4>Status</h4>
-        </header>
+      <section className="row">
+        <div className="col-md-12">
+          <header className="hidden">
+            <h4>Status</h4>
+          </header>
 
-        <nav>
-          <ul>
-            <li onClick={this.showAll}>All</li>
-            <li onClick={this.showOnline}>Online</li>
-            <li onClick={this.showOffline}>Offline</li>
-          </ul>
-        </nav>
+          <nav>
+            <ul className="nav nav-pills">
+              <li className="active"><a onClick={this.showAll} href="#">All</a></li>
+              <li><a onClick={this.showOnline} href="#">Online <span className="badge">{this.state.online.length}</span></a></li>
+              <li><a onClick={this.showOffline} href="#">Offline <span className="badge">{this.state.offline.length}</span></a></li>
+            </ul>
+          </nav>
+        </div>
 
-        <section>
+        <section className="col-md-12">
           <header>
             <h2>{display} Channels</h2>
           </header>
 
-          <div>
+          <div className="row">
             {channelList}
           </div>
         </section>

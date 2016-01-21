@@ -12,8 +12,12 @@ var channels = [
   {id: 7, name: 'thomasballinger'},
   {id: 8, name: 'noobs2ninjas'},
   {id: 9, name: 'beohoff'},
-  {id: 10, name: 'boris_chantel'},
-  {id: 11, name: 'ancelak' }
+  {id: 11, name: 'boris_chantel'},
+  {id: 12, name: 'brunofin'},
+  {id: 13, name: 'comster404'},
+  {id: 14, name: 'ducksauce'},
+  {id: 15, name: 'mrhappy1227'},
+  {id: 16, name: 'ancelak'}
 ];
 
 ReactDOM.render(<TwitchStreamers channels={channels} />, document.getElementById('app'));
