@@ -53,7 +53,8 @@ export default React.createClass({
         dataType: 'json',
         crossDomain: true,
         headers: {
-          'Accept': 'application/vnd.twitchtv.v3+json'
+          'Accept': 'application/vnd.twitchtv.v3+json',
+          'Client-ID': 'az2bq1wyeazt3n4f3eb009097pbjk4'
         },
 
         success: function (data) {
@@ -88,7 +89,8 @@ export default React.createClass({
                 dataType: 'json',
                 crossDomain: true,
                 headers: {
-                  'Accept': 'application/vnd.twitchtv.v3+json'
+                  'Accept': 'application/vnd.twitchtv.v3+json',
+                  'Client-ID': 'az2bq1wyeazt3n4f3eb009097pbjk4'
                 },
 
                 success: function (channelData) {
