@@ -1,14 +1,13 @@
-var path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, 'src/app.js')
+    main: `${__dirname}/src/app.js`
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: `${__dirname}/dist`,
     filename: 'bundle.js'
   },
-  devtool: 'source-map',
   module: {
     loaders: [
       {
@@ -17,5 +16,12 @@ module.exports = {
         loaders: ['babel-loader']
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    })
+  ]
 };
