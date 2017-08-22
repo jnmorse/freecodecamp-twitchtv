@@ -3,7 +3,8 @@ import Channel from './channel.jsx';
 
 /* global $ */
 export default React.createClass({
-  getInitialState: function () {
+  displayName: 'Channels',
+  getInitialState: function() {
     return {
       display: 'all',
       online: [],
@@ -13,7 +14,7 @@ export default React.createClass({
     };
   },
 
-  showAll: function (e) {
+  showAll: function(e) {
     e.preventDefault();
 
     $('#twitchstreamers-all').siblings().removeClass('active');
@@ -24,7 +25,7 @@ export default React.createClass({
     });
   },
 
-  showOnline: function (e) {
+  showOnline: function(e) {
     e.preventDefault();
 
     $('#twitchstreamers-online').siblings().removeClass('active');
@@ -35,7 +36,7 @@ export default React.createClass({
     });
   },
 
-  showOffline: function (e) {
+  showOffline: function(e) {
     e.preventDefault();
 
     $('#twitchstreamers-offline').siblings().removeClass('active');
@@ -46,99 +47,101 @@ export default React.createClass({
     });
   },
 
-  componentDidMount: function () {
-    this.props.list.map(function (channel) {
-      $.ajax({
-        url: 'https://api.twitch.tv/kraken/streams/' + channel.name,
-        dataType: 'json',
-        crossDomain: true,
-        headers: {
-          'Accept': 'application/vnd.twitchtv.v3+json',
-          'Client-ID': 'az2bq1wyeazt3n4f3eb009097pbjk4'
-        },
+  componentDidMount: function() {
+    this.props.list.map(
+      function(channel) {
+        $.ajax({
+          url: 'https://api.twitch.tv/kraken/streams/' + channel.name,
+          dataType: 'json',
+          crossDomain: true,
+          headers: {
+            Accept: 'application/vnd.twitchtv.v3+json',
+            'Client-ID': 'az2bq1wyeazt3n4f3eb009097pbjk4'
+          },
 
-        success: function (data) {
-          if (this.isMounted()) {
-            var online = this.state.online.slice();
-            var deleted = this.state.deleted.slice();
-            var newData = {};
+          success: function(data) {
+            if (this.isMounted()) {
+              var online = this.state.online.slice();
+              var deleted = this.state.deleted.slice();
+              var newData = {};
 
-            if (Boolean(data.stream)) {
+              if (data.stream) {
+                newData.id = channel.id;
+                newData.name = channel.name;
+                newData.data = data;
+
+                online.push(newData);
+
+                this.setState({
+                  online: online
+                });
+              } else if (data.stream === undefined) {
+                newData.id = channel.id;
+                newData.name = channel.name;
+                newData.data = null;
+
+                deleted.push(newData);
+
+                this.setState({
+                  deleted: deleted
+                });
+              } else {
+                $.ajax({
+                  url: data._links.channel,
+                  dataType: 'json',
+                  crossDomain: true,
+                  headers: {
+                    Accept: 'application/vnd.twitchtv.v3+json',
+                    'Client-ID': 'az2bq1wyeazt3n4f3eb009097pbjk4'
+                  },
+
+                  success: function(channelData) {
+                    var offline = this.state.offline.slice();
+                    var newData = {};
+
+                    newData.id = channel.id;
+                    newData.name = channel.name;
+                    newData.data = channelData;
+
+                    offline.push(newData);
+
+                    this.setState({
+                      offline: offline
+                    });
+                  }.bind(this)
+                });
+              }
+            }
+          }.bind(this),
+          error: function(a, b, c) {
+            if (c === 'status code 422') {
+              var deleted = this.state.deleted.slice();
+              var newData = {};
+
               newData.id = channel.id;
               newData.name = channel.name;
-              newData.data = data;
-
-              online.push(newData);
-
-              this.setState({
-                online: online
-              });
-            } else if (data.stream === undefined) {
-              newData.id = channel.id;
-              newData.name = channel.name;
-              newData.data = null;
 
               deleted.push(newData);
 
               this.setState({
                 deleted: deleted
               });
-            } else {
-              $.ajax({
-                url: data._links.channel,
-                dataType: 'json',
-                crossDomain: true,
-                headers: {
-                  'Accept': 'application/vnd.twitchtv.v3+json',
-                  'Client-ID': 'az2bq1wyeazt3n4f3eb009097pbjk4'
-                },
-
-                success: function (channelData) {
-                  var offline = this.state.offline.slice();
-                  var newData = {};
-
-                  newData.id = channel.id;
-                  newData.name = channel.name;
-                  newData.data = channelData;
-
-                  offline.push(newData);
-
-                  this.setState({
-                    offline: offline
-                  });
-                }.bind(this)
-              });
             }
-          }
-        }.bind(this),
-        error: function(a, b, c) {
-          if (c === 'status code 422') {
-            var deleted = this.state.deleted.slice();
-            var newData = {};
-
-            newData.id = channel.id;
-            newData.name = channel.name;
-
-            deleted.push(newData);
-
-            this.setState({
-              deleted: deleted
-            });
-          }
-        }.bind(this)
-      });
-    }.bind(this));
+          }.bind(this)
+        });
+      }.bind(this)
+    );
   },
 
-  filterOnlineChannels: function (channel) {
-    if (Boolean(channel.data.stream)) {
+  filterOnlineChannels: function(channel) {
+    if (channel.data.stream) {
       return true;
     } else {
       return false;
     }
   },
 
-  filterOfflineChannels: function (channel) {
+  filterOfflineChannels: function(channel) {
     if (channel.data.stream === null) {
       return true;
     } else {
@@ -146,13 +149,11 @@ export default React.createClass({
     }
   },
 
-  listChannels: function (channel) {
-    return (
-      <Channel key={channel.id} name={channel.name} data={channel.data} />
-    );
+  listChannels: function(channel) {
+    return <Channel key={channel.id} name={channel.name} data={channel.data} />;
   },
 
-  render: function () {
+  render: function() {
     /**
      * Title case display state
      * @var display
@@ -164,11 +165,9 @@ export default React.createClass({
     display = display.join('');
 
     if (this.state.display === 'online') {
-      channelList = this.state.online
-        .map(this.listChannels);
+      channelList = this.state.online.map(this.listChannels);
     } else if (this.state.display === 'offline') {
-      channelList = this.state.offline
-        .map(this.listChannels);
+      channelList = this.state.offline.map(this.listChannels);
     } else {
       channelList = this.state.online
         .concat(this.state.offline)
@@ -186,15 +185,23 @@ export default React.createClass({
           <nav>
             <ul className="nav nav-pills">
               <li id="twitchstreamers-all" className="active">
-                <a onClick={this.showAll} href="#">All</a>
+                <a onClick={this.showAll} href="#">
+                  All
+                </a>
               </li>
 
               <li id="twitchstreamers-online">
-                <a onClick={this.showOnline} href="#">Online <span className="badge">{this.state.online.length}</span></a>
+                <a onClick={this.showOnline} href="#">
+                  Online{' '}
+                  <span className="badge">{this.state.online.length}</span>
+                </a>
               </li>
 
               <li id="twitchstreamers-offline">
-                <a onClick={this.showOffline} href="#">Offline <span className="badge">{this.state.offline.length}</span></a>
+                <a onClick={this.showOffline} href="#">
+                  Offline{' '}
+                  <span className="badge">{this.state.offline.length}</span>
+                </a>
               </li>
             </ul>
           </nav>
@@ -202,7 +209,9 @@ export default React.createClass({
 
         <section className="col-md-12">
           <header>
-            <h2>{display} Channels</h2>
+            <h2>
+              {display} Channels
+            </h2>
           </header>
 
           <div className="row">
