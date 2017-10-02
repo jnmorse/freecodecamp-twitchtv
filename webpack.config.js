@@ -1,14 +1,12 @@
-var path = require('path');
-
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, 'src/app.js')
+    main: './src/index.js'
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    path: __dirname,
+    filename: 'dist/bundle.js'
   },
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
   module: {
     loaders: [
       {
