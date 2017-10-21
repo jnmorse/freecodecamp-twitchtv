@@ -12,7 +12,7 @@ class Channel extends Component {
   }
 
   static get propTypes() {
-    return {
+    return{
       data: PropTypes.object.isRequired,
       showStream: PropTypes.bool,
       name: PropTypes.string.isRequired
@@ -20,7 +20,7 @@ class Channel extends Component {
   }
 
   static get defaultProps() {
-    return {
+    return{
       showStream: false
     };
   }
@@ -30,9 +30,10 @@ class Channel extends Component {
     const { showVideo } = this.state;
 
     if (showVideo) {
-      return (
+      return(
         <div className="embed-responsive embed-responsive-16by9">
           <iframe
+            title={`${stream.channel.name}`}
             src={`https://player.twitch.tv/?channel=${stream.channel.name}`}
             height="720"
             width="1280"
@@ -44,7 +45,7 @@ class Channel extends Component {
       );
     }
 
-    return (
+    return(
       <img src={stream.preview.large} alt="Stream Preview" className="img-responsive" />
     );
   }
@@ -61,7 +62,7 @@ class Channel extends Component {
   showOnlineChannel() {
     const { showStream, data: { stream } } = this.props;
 
-    return (
+    return(
       <section className="col-sm-12 col-md-6">
         <div className="panel panel-default">
           <header>
@@ -94,11 +95,11 @@ class Channel extends Component {
     const { data } = this.props;
 
     if (data.logo) {
-      return (
+      return(
         <img src={data.logo} alt="Logo" style={{ maxHeight: '76px' }} className="img-responsive" />
       );
     }
-    return (
+    return(
       <img src="http://placehold.it/76x76" alt="Logo" className="img-responsive" />
     );
   }
@@ -106,7 +107,7 @@ class Channel extends Component {
   showOfflineChannel() {
     const { data } = this.props;
 
-    return (
+    return(
       <section className="col-xs-12 col-md-2">
         <div className="panel panel-default">
           <header className="panel-heading">
@@ -127,7 +128,7 @@ class Channel extends Component {
   showDeletedChannel() {
     const { name } = this.props;
 
-    return (
+    return(
       <section className="col-xs-12 col-sm-2">
         <div className="panel panel-danger">
           <header className="panel-heading">
@@ -150,7 +151,7 @@ class Channel extends Component {
       channel = this.showDeletedChannel();
     }
 
-    return (
+    return(
       <div>
         {channel}
       </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import $ from 'jquery';
 import Channel from './channel';
 
 const listChannels = channel => (
@@ -19,7 +20,7 @@ class Channels extends Component {
   }
 
   static get propTypes() {
-    return {
+    return{
       list: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number,
         name: PropTypes.string
@@ -154,7 +155,7 @@ class Channels extends Component {
         .map(listChannels);
     }
 
-    return (
+    return(
       <section className="row">
         <div className="col-md-12">
           <header className="hidden">
