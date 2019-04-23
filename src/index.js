@@ -1,7 +1,8 @@
-import React from 'react';
-import { render } from 'react-dom';
-import App from './app';
+import React from 'react'
+import { render } from 'react-dom'
 
-const MOUNT = document.getElementById('root');
+import App from './app'
 
-render(<App />, MOUNT);
+const MOUNT = document.getElementById('root')
+
+render(<App />, MOUNT)

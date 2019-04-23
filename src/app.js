@@ -1,5 +1,5 @@
-import React from 'react';
-import TwitchStreamers from './components/twitchstreamers/main';
+import React from 'react'
+import TwitchStreamers from './components/twitchstreamers/main'
 
 const channels = [
   { id: 1, name: 'freeCodecamp' },
@@ -17,10 +17,10 @@ const channels = [
   { id: 14, name: 'ducksauce' },
   { id: 15, name: 'mrhappy1227' },
   { id: 16, name: 'ancelak' }
-];
+]
 
 const App = () => (
   <TwitchStreamers channels={channels} />
-);
+)
 
-export default App;
+export default App
