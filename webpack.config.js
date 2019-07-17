@@ -1,7 +1,7 @@
 // const webpack = require('webpack')
-const HTMLWebpackPlugin = require('html-webpack-plugin')
-const DynamicCdnWebpackPlugin = require('dynamic-cdn-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const DynamicCdnWebpackPlugin = require('dynamic-cdn-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -11,6 +11,9 @@ module.exports = {
     path: `${__dirname}/docs`,
     hashDigestLength: 8,
     filename: 'bundle.[hash].js'
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
   },
   devtool: 'source-map',
   module: {
@@ -42,4 +45,4 @@ module.exports = {
     }),
     new DynamicCdnWebpackPlugin()
   ]
-}
+};
