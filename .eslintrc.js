@@ -18,6 +18,7 @@ module.exports = {
 
   rules: {
     'react/static-property-placement': ['error', 'static public field'],
-    'import/prefer-default-export': 0
+    'import/prefer-default-export': 0,
+    'react/destructuring-assignment': 0
   }
 };
