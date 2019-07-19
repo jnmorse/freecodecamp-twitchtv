@@ -33,17 +33,21 @@ export function fetchChannels(channels = []) {
 
       const activeStreams = await fetchActiveStreams(channels);
 
-      const data = response.data.data.map(channel => {
-        const stream = activeStreams.find(
-          activeStream => activeStream.user_id === channel.id
-        );
+      const data = await Promise.all(
+        response.data.data.map(async channel => {
+          const stream = activeStreams.find(
+            activeStream => activeStream.user_id === channel.id
+          );
 
-        if (stream) {
-          return { ...channel, stream };
-        }
+          if (stream) {
+            const game = await getGameInfo(stream.game_id);
 
-        return channel;
-      });
+            return { ...channel, stream, game };
+          }
+
+          return channel;
+        })
+      );
 
       return dispatch({
         type: ActionTypes.FetchChannels,
