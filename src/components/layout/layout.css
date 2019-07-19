@@ -1,4 +1,4 @@
-#site_header {
+#siteHeader {
   text-align: center;
   margin-bottom: 2em;
 }
@@ -8,5 +8,5 @@
 }
 
 .subHeading {
-  font-size: 3rem;
+  font-size: 1.5rem;
 }

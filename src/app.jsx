@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { connect } from './components/ApiProvider';
 import { fetchChannels } from './actions/stream-actions';
 import { ConnectedChannels as Channels } from './components/channels';
+import { Layout } from './components/layout';
+import { SEO } from './components/seo';
 
-import styles from './app.css';
 import { defaultChannels } from './default-channels';
 
 let channels = JSON.parse(localStorage.getItem('jnmorse-twitch-streamers'));
@@ -24,45 +25,26 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.props.fetchChannels();
+    this.props.fetchChannels(channels);
   }
 
   render() {
     return (
-      <>
-        <header id={styles.site_header}>
-          <h1 className={styles.heading}>Twitch Streamers</h1>
-          <p className={styles.subHeading}>
-            Keep track of your favorite Twitch Streams
-          </p>
-        </header>
-
-        <form>
-          <label>
-            Add a Streamer <input type="text" />
-          </label>
-        </form>
-
-        <main>
-          <Channels />
-        </main>
-
-        <footer>
-          <p>Joseph Morse</p>
-        </footer>
-      </>
+      <Layout>
+        <SEO
+          title="Home"
+          description="Keep track of when your favorite Twitch streamers are online"
+          keywords={['twitch', 'status']}
+        />
+        <Channels />
+      </Layout>
     );
   }
 }
 
 const ConnnectedApp = connect(
   null,
-  dispatch => {
-    return {
-      fetchChannels: async () =>
-        dispatch(await fetchChannels(channels, dispatch))
-    };
-  }
+  { fetchChannels }
 )(App);
 
 export default ConnnectedApp;

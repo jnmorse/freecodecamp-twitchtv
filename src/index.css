@@ -15,6 +15,17 @@ body {
   background-color: cornflowerblue;
 }
 
+:global(#root) {
+  grid-template-rows: 15vh 1fr 2em;
+  display: grid;
+  gap: 1em;
+}
+
+footer {
+  text-align: center;
+  font-weight: bold;
+}
+
 a {
   all: unset;
   cursor: pointer;

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { connect } from './ApiProvider';
+import { OfflineChannel } from './offline-channel';
+import { OnlineChannel } from './online-channel/online-channel';
+
 import styles from './channels.css';
 
 class Channels extends Component {
@@ -35,34 +38,42 @@ class Channels extends Component {
     ).isRequired
   };
 
-  render() {
+  renderOfflineChannels() {
     const { channels } = this.props;
 
+    const offlineChannels = channels.filter(
+      channel => Boolean(channel.stream) === false
+    );
+
+    return offlineChannels.map(channel => (
+      <OfflineChannel key={channel.id} {...channel} />
+    ));
+  }
+
+  renderOnlineChannels() {
+    const onlineChannels = this.props.channels.filter(channel =>
+      Boolean(channel.stream)
+    );
+
+    return onlineChannels.map(channel => {
+      return <OnlineChannel key={channel.id} {...channel} />;
+    });
+  }
+
+  render() {
     return (
-      <div className={styles.container}>
-        {channels.map(channel => (
-          <section key={channel.id} className={styles.section}>
-            <a href={`https://twitch.tv/${channel.login}`}>
-              <header>
-                <h2>{channel.display_name}</h2>
-                <img src={channel.profile_image_url} alt="Profile" />
-              </header>
-            </a>
-
-            <p>{channel.description || 'channel description unavaible'}</p>
-
-            <footer>
-              <p>{channel.view_count}</p>
-            </footer>
-          </section>
-        ))}
-      </div>
+      <>
+        <div className={styles.onlineContainer}>
+          {this.renderOnlineChannels()}
+        </div>
+        <div className={styles.container}>{this.renderOfflineChannels()}</div>
+      </>
     );
   }
 }
 
-function mapStateToProps({ channels, streams }) {
-  return { channels, streams };
+function mapStateToProps({ channels }) {
+  return { channels };
 }
 
 export const ConnectedChannels = connect(mapStateToProps)(Channels);

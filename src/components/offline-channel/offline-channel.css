@@ -1,0 +1,20 @@
+.section {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background-color: white;
+  border-radius: 10px;
+  padding: 0.5em;
+}
+
+.description {
+  align-self: center;
+}
+
+.section img {
+  max-width: 100%;
+}
+
+footer {
+  border-top: 1px solid grey;
+  padding-top: 0.5em;
+}

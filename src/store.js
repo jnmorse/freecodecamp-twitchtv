@@ -1,5 +1,11 @@
-import { channelReducer } from './reducers/channel-reducer';
+import { createStore, applyMiddleware } from 'redux';
+import reduxThunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-export const store = {
-  channels: channelReducer
-};
+import { reducers } from './reducers';
+
+export const store = createStore(
+  reducers,
+  { channels: [] },
+  composeWithDevTools(applyMiddleware(reduxThunk))
+);
