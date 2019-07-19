@@ -1,21 +1,35 @@
 // import axios from 'axios';
-import { users, streams } from '../twitch';
+import { TwitchAPI } from '../twitch';
 import { ActionTypes } from './types';
 
-// const streamUrl = new URL('')
-
 export async function fetchActiveStreams(channels = []) {
-  const search = channels.map(channel => `user_login=${channel.name}`);
-  const response = await streams.get(`?${search.join('&')}`);
+  const search = channels
+    .map(channel => `user_login=${channel.name}`)
+    .join('&');
+  const searchParams = new URLSearchParams(search);
+
+  const response = await TwitchAPI.get('/streams', {
+    params: searchParams
+  });
 
   return response.data.data;
+}
+
+async function getGameInfo(gameID) {
+  const search = await TwitchAPI.get('/games', { params: { id: gameID } });
+
+  return search.data.data[0];
 }
 
 export function fetchChannels(channels = []) {
   return async dispatch => {
     if (channels.length) {
-      const search = channels.map(channel => `login=${channel.name}`);
-      const response = await users.get(`?${search.join('&')}`);
+      const search = channels.map(channel => `login=${channel.name}`).join('&');
+      const searchParams = new URLSearchParams(search);
+
+      const response = await TwitchAPI.get('/users', {
+        params: searchParams
+      });
 
       const activeStreams = await fetchActiveStreams(channels);
 
