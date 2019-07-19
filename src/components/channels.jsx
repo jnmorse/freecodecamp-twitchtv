@@ -66,6 +66,7 @@ class Channels extends Component {
         <div className={styles.onlineContainer}>
           {this.renderOnlineChannels()}
         </div>
+
         <div className={styles.container}>{this.renderOfflineChannels()}</div>
       </>
     );

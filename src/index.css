@@ -13,12 +13,24 @@
 
 body {
   background-color: cornflowerblue;
+  margin: 0 5vw;
 }
 
 :global(#root) {
-  grid-template-rows: 15vh 1fr 2em;
+  grid-template-rows: auto 1fr auto;
   display: grid;
   gap: 1em;
+}
+
+header {
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  word-spacing: 0.3em;
+}
+
+h1,
+h2 {
+  line-height: 1.5em;
 }
 
 footer {

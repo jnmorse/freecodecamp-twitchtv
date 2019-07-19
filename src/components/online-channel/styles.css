@@ -1,0 +1,49 @@
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.header h2 {
+  font-size: 3em;
+}
+
+.header h2 {
+  justify-self: start;
+}
+
+.header p {
+  font-size: 1.8em;
+  align-self: center;
+  justify-self: end;
+  font-weight: bold;
+  color: hsl(130, 52%, 31%);
+}
+
+.previewImage {
+  max-width: 100%;
+}
+
+.section {
+  position: relative;
+  background-color: white;
+  border-radius: 10px;
+  padding: 0.5em;
+}
+
+.section::after {
+  content: 'WATCH STREAM';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: hsla(0, 50%, 97%, 0.8);
+  pointer-events: none;
+  opacity: 0;
+  padding: 0.5em;
+  border-radius: 10px;
+  transition: opacity 300ms ease-in-out;
+}
+
+.section:hover::after {
+  opacity: 1;
+}

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import styles from './styles.css';
+
 export class OnlineChannel extends Component {
   static propTypes = {
     description: PropTypes.string.isRequired,
@@ -46,20 +48,23 @@ export class OnlineChannel extends Component {
     const {
       display_name: displayName,
       description,
-      stream: { thumbnail_url: thumbnailUrl }
+      stream: { thumbnail_url: thumbnailUrl, viewer_count: viewerCount }
     } = this.props;
 
     const url = thumbnailUrl.replace('{width}', 1080).replace('{height}', 720);
 
     return (
-      <section>
-        <header>
+      <section className={styles.section}>
+        <header className={styles.header}>
           <h2>{displayName}</h2>
+          <p>Online</p>
         </header>
 
-        <img src={url} alt="Live Stream" />
+        <img className={styles.previewImage} src={url} alt="Live Stream" />
 
         <p>{description || 'No Description Provided'}</p>
+
+        <footer># Watching: {viewerCount}</footer>
       </section>
     );
   }

@@ -1,12 +1,14 @@
 #siteHeader {
   text-align: center;
-  margin-bottom: 2em;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+  border-bottom: 3px solid hsl(200, 50%, 30%);
 }
 
 .heading {
-  font-size: 5rem;
+  font-size: 3rem;
 }
 
 .subHeading {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }

@@ -4,9 +4,17 @@
   background-color: white;
   border-radius: 10px;
   padding: 0.5em;
+  justify-items: center;
+}
+
+.section header {
+  text-align: center;
 }
 
 .description {
+  word-spacing: 0.2em;
+  letter-spacing: 0.1em;
+  line-height: 1.5em;
   align-self: center;
 }
 

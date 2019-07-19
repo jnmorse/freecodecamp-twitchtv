@@ -6,6 +6,9 @@
 
 .onlineContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(40vw, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(30em, 1fr));
   gap: 1.5rem;
+  padding-bottom: 1em;
+  border-bottom: 2px solid hsl(200, 50%, 30%);
+  margin-bottom: 1em;
 }
