@@ -25,7 +25,9 @@ export class OnlineChannel extends Component {
     game: PropTypes.shape({
       name: PropTypes.string.isRequired,
       box_art_url: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+
+    ShowModal: PropTypes.func.isRequired
   };
 
   displayIframe() {
@@ -52,9 +54,11 @@ export class OnlineChannel extends Component {
   render() {
     const {
       display_name: displayName,
+      login,
       description,
       stream: { thumbnail_url: thumbnailUrl, viewer_count: viewerCount, title },
-      game: { name: gameName, box_art_url: boxArtUrl }
+      game: { name: gameName, box_art_url: boxArtUrl },
+      ShowModal
     } = this.props;
 
     const thumbnail = thumbnailUrl
@@ -70,7 +74,12 @@ export class OnlineChannel extends Component {
           <p>{title}</p>
         </header>
 
-        <button type="button" className={styles.preview} title="watch stream">
+        <button
+          type="button"
+          className={styles.preview}
+          title="watch stream"
+          onClick={() => ShowModal(login, title)}
+        >
           <img
             className={styles.previewImage}
             src={thumbnail}

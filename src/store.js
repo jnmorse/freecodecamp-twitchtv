@@ -6,6 +6,10 @@ import { reducers } from './reducers';
 
 export const store = createStore(
   reducers,
-  { channels: [] },
+  {
+    channels: [],
+    channelsList: [],
+    showModal: { visable: false, title: '', channel: '' }
+  },
   composeWithDevTools(applyMiddleware(reduxThunk))
 );

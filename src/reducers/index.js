@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
-import { channelReducer } from './channel-reducer';
+import { channelsListReducer } from './channels-list-reducer';
+import { channelsReducer } from './channel-reducer';
+import { showModalReducer } from './show-modal';
 
 export const reducers = combineReducers({
-  channels: channelReducer
+  channels: channelsReducer,
+  showModal: showModalReducer,
+  channelsList: channelsListReducer
 });

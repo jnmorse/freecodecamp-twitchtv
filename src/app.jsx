@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchChannels } from './actions/stream-actions';
+import { fetchChannels } from './actions';
 import { ConnectedChannels as Channels } from './components/channels';
+import { ConnectedStreamModal as StreamModal } from './components/stream-modal';
 import { Layout } from './components/layout';
 import { SEO } from './components/seo';
 
@@ -21,7 +22,10 @@ if (!channels) {
 
 class App extends Component {
   static propTypes = {
-    fetchChannels: PropTypes.func.isRequired
+    fetchChannels: PropTypes.func.isRequired,
+    showModal: PropTypes.shape({
+      visable: PropTypes.bool.isRequired
+    }).isRequired
   };
 
   componentDidMount() {
@@ -36,14 +40,20 @@ class App extends Component {
           description="Keep track of when your favorite Twitch streamers are online"
           keywords={['twitch', 'status']}
         />
+
+        <StreamModal />
         <Channels />
       </Layout>
     );
   }
 }
 
+function mapStateToProps({ showModal }) {
+  return { showModal };
+}
+
 const ConnnectedApp = connect(
-  null,
+  mapStateToProps,
   { fetchChannels }
 )(App);
 
