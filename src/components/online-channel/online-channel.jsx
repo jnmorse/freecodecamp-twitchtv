@@ -20,6 +20,11 @@ export class OnlineChannel extends Component {
       user_id: PropTypes.string.isRequired,
       user_name: PropTypes.string.isRequired,
       viewer_count: PropTypes.number.isRequired
+    }).isRequired,
+
+    game: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      box_art_url: PropTypes.string.isRequired
     }).isRequired
   };
 
@@ -48,23 +53,39 @@ export class OnlineChannel extends Component {
     const {
       display_name: displayName,
       description,
-      stream: { thumbnail_url: thumbnailUrl, viewer_count: viewerCount }
+      stream: { thumbnail_url: thumbnailUrl, viewer_count: viewerCount, title },
+      game: { name: gameName, box_art_url: boxArtUrl }
     } = this.props;
 
-    const url = thumbnailUrl.replace('{width}', 1080).replace('{height}', 720);
+    const thumbnail = thumbnailUrl
+      .replace('{width}', 1080)
+      .replace('{height}', 720);
+    const boxArt = boxArtUrl.replace('{width}', 90).replace('{height}', 150);
 
     return (
       <section className={styles.section}>
         <header className={styles.header}>
           <h2>{displayName}</h2>
-          <p>Online</p>
+          <p className={styles.status}>Online</p>
+          <p>{title}</p>
         </header>
 
-        <img className={styles.previewImage} src={url} alt="Live Stream" />
+        <button type="button" className={styles.preview} title="watch stream">
+          <img
+            className={styles.previewImage}
+            src={thumbnail}
+            alt="Live Stream"
+          />
+        </button>
 
         <p>{description || 'No Description Provided'}</p>
 
-        <footer># Watching: {viewerCount}</footer>
+        <aside className={styles.gameInfo}>
+          <img src={boxArt} alt="Box Art" />
+          <div>{gameName}</div>
+        </aside>
+
+        <footer className={styles.footer}># Watching: {viewerCount}</footer>
       </section>
     );
   }

@@ -1,18 +1,20 @@
 .header {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-area: title;
+  grid-template-columns: 2fr 1fr;
+  border-bottom: 1px solid grey;
+  justify-items: center;
 }
 
 .header h2 {
   font-size: 3em;
 }
 
-.header h2 {
-  justify-self: start;
+.status {
+  font-size: 1.8rem;
 }
 
 .header p {
-  font-size: 1.8em;
   align-self: center;
   justify-self: end;
   font-weight: bold;
@@ -20,19 +22,50 @@
 }
 
 .previewImage {
+  position: relative;
+  display: block;
   max-width: 100%;
 }
 
+.gameInfo {
+  grid-area: gameinfo;
+  align-self: center;
+  justify-self: center;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.footer {
+  grid-area: footer;
+  font-size: 0.8rem;
+}
+
 .section {
-  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 10px;
+  grid-template-areas:
+    'title title'
+    'preview gameinfo'
+    'description gameinfo'
+    'footer footer';
+
   background-color: white;
   border-radius: 10px;
   padding: 0.5em;
 }
 
-.section::after {
-  content: 'WATCH STREAM';
+.preview {
+  background-color: transparent;
+  border: none;
+  grid-area: preview;
+  position: relative;
+}
+
+.preview::after {
+  display: block;
   position: absolute;
+  content: 'WATCH STREAM';
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -44,6 +77,6 @@
   transition: opacity 300ms ease-in-out;
 }
 
-.section:hover::after {
+.preview:hover::after {
   opacity: 1;
 }
