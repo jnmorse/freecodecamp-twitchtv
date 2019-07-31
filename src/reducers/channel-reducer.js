@@ -2,7 +2,7 @@ import { ActionTypes } from '../actions/types';
 
 export const channelsReducer = (state = [], action) => {
   switch (action.type) {
-    case ActionTypes.FetchChannels: {
+    case ActionTypes.FetchChannelsSuccess: {
       return [...state, ...action.payload];
     }
 

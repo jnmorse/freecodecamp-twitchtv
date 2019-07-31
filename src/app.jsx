@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchChannels } from './actions';
 import { ConnectedChannels as Channels } from './components/channels';
 import { ConnectedStreamModal as StreamModal } from './components/stream-modal';
+import { ConnectedNotification as Notification } from './components/notification';
 import { Layout } from './components/layout';
 import { SEO } from './components/seo';
 
@@ -41,6 +42,7 @@ class App extends Component {
           keywords={['twitch', 'status']}
         />
 
+        <Notification />
         <StreamModal />
         <Channels />
       </Layout>

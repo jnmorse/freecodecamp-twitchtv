@@ -21,38 +21,61 @@ async function getGameInfo(gameID) {
   return search.data.data[0];
 }
 
+export function fetchChannelsSuccess(data) {
+  return {
+    type: ActionTypes.FetchChannelsSuccess,
+    payload: data
+  };
+}
+
+export function fetchChannelsFail(message) {
+  return {
+    type: ActionTypes.FetchChannelsFail,
+    payload: message
+  };
+}
+
 export function fetchChannels(channels = []) {
   return async dispatch => {
     if (channels.length) {
-      const search = channels.map(channel => `login=${channel.name}`).join('&');
-      const searchParams = new URLSearchParams(search);
+      try {
+        const search = channels
+          .map(channel => `login=${channel.name}`)
+          .join('&');
+        const searchParams = new URLSearchParams(search);
 
-      const response = await TwitchAPI.get('/users', {
-        params: searchParams
-      });
+        const response = await TwitchAPI.get('/users', {
+          params: searchParams
+        });
 
-      const activeStreams = await fetchActiveStreams(channels);
+        const activeStreams = await fetchActiveStreams(channels);
 
-      const data = await Promise.all(
-        response.data.data.map(async channel => {
-          const stream = activeStreams.find(
-            activeStream => activeStream.user_id === channel.id
-          );
+        const data = await Promise.all(
+          response.data.data.map(async channel => {
+            const stream = activeStreams.find(
+              activeStream => activeStream.user_id === channel.id
+            );
 
-          if (stream) {
-            const game = await getGameInfo(stream.game_id);
+            if (stream) {
+              const game = await getGameInfo(stream.game_id);
 
-            return { ...channel, stream, game };
-          }
+              return { ...channel, stream, game };
+            }
 
-          return channel;
-        })
-      );
+            return channel;
+          })
+        );
 
-      return dispatch({
-        type: ActionTypes.FetchChannels,
-        payload: data
-      });
+        if (response.status === 200) {
+          return dispatch(fetchChannelsSuccess(data));
+        }
+
+        return dispatch(
+          fetchChannelsFail('was a problem retrieving from Twitch API')
+        );
+      } catch (error) {
+        return dispatch(fetchChannelsFail(error));
+      }
     }
 
     return dispatch({
