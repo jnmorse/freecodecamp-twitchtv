@@ -11,6 +11,12 @@ const mode = process.env.NODE_ENV || 'production';
 const isProduction = mode === 'production';
 const isDevelopment = mode === 'development';
 
+const htmlOptions = {
+  title: 'Twitch Streamers',
+  template: 'index.ejs',
+  hash: true
+};
+
 module.exports = {
   entry: {
     main: './src/index'
@@ -19,7 +25,8 @@ module.exports = {
   output: {
     path: `${__dirname}/docs`,
     hashDigestLength: 8,
-    filename: 'js/bundle.[hash].js'
+    filename: 'js/bundle.[hash].js',
+    chunkFilename: 'js/[name].chunk.[hash:5].js'
   },
   resolve: {
     extensions: ['.js', '.jsx']
@@ -83,18 +90,15 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(),
-    new HTMLWebpackPlugin({
-      title: 'FreeCodeCamp TwitchTV App',
-      template: 'index.ejs',
-      hash: true
-    }),
+    isProduction && new CleanWebpackPlugin(),
+    new HTMLWebpackPlugin(htmlOptions),
     new DynamicCdnWebpackPlugin(),
-    new MiniCSSExtractPlugin({
-      filename: 'css/[name].css',
-      chunkFilename: 'css/[name].chunk.css'
-    })
-  ],
+    isProduction &&
+      new MiniCSSExtractPlugin({
+        filename: 'css/[name].css',
+        chunkFilename: 'css/[name].chunk.css'
+      })
+  ].filter(Boolean),
   node: {
     fs: 'empty'
   }
