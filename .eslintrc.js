@@ -21,5 +21,14 @@ module.exports = {
     'import/prefer-default-export': 0,
     'react/destructuring-assignment': 0,
     'import/exports-last': 0
-  }
+  },
+
+  overrides: [
+    {
+      files: ['**/*.test.js'],
+      env: {
+        jest: true
+      }
+    }
+  ]
 };
