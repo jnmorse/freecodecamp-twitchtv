@@ -84,14 +84,25 @@ module.exports = {
           }
         },
         cache: true,
-        sourceMap: true
+        sourceMap: false
       }),
       new OptimizeCssAssetsWebpackPlugin()
     ]
   },
   plugins: [
     isProduction && new CleanWebpackPlugin(),
-    new HTMLWebpackPlugin(htmlOptions),
+    new HTMLWebpackPlugin(
+      isProduction
+        ? {
+            ...htmlOptions,
+            minify: {
+              collapseWhitespace: true,
+              removeComments: true,
+              useShortDoctype: true
+            }
+          }
+        : htmlOptions
+    ),
     new DynamicCdnWebpackPlugin(),
     isProduction &&
       new MiniCSSExtractPlugin({
