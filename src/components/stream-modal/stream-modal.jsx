@@ -13,8 +13,20 @@ export class StreamModal extends Component {
     }).isRequired
   };
 
+  componentDidMount() {
+    document.addEventListener('keyup', this.handleEscape);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keyup', this.handleEscape);
+  }
+
   handleEscape = event => {
-    console.log(event);
+    if (event.keyCode !== 27) {
+      return;
+    }
+
+    this.props.hideModal();
   };
 
   // eslint-disable-next-line max-lines-per-function
@@ -31,7 +43,7 @@ export class StreamModal extends Component {
     const iframeSrc = new URL('https://player.twitch.tv/');
 
     iframeSrc.searchParams.append('channel', channel);
-    iframeSrc.searchParams.append('autoplay', false);
+    iframeSrc.searchParams.append('autoplay', true);
     iframeSrc.searchParams.append('muted', false);
 
     return (

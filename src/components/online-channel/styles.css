@@ -60,6 +60,7 @@
   border: none;
   grid-area: preview;
   position: relative;
+  cursor: pointer;
 }
 
 .preview::after {
@@ -74,7 +75,7 @@
   opacity: 0;
   padding: 0.5em;
   border-radius: 10px;
-  transition: opacity 300ms ease-in-out;
+  transition: opacity 500ms ease-in-out;
 }
 
 .preview:hover::after {

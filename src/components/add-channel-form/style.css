@@ -1,0 +1,40 @@
+.addForm {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  margin: 1rem;
+  background-color: white;
+  column-gap: 0.5rem;
+  padding: 0px 1rem;
+  border-radius: 0.5rem;
+}
+
+.inputArea {
+  display: grid;
+  align-items: center;
+  column-gap: 0.5rem;
+  grid-template-columns: max-content 1fr;
+}
+
+.label {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.input {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  border-width: 0px 1px 0px 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+.input:focus {
+  outline: none;
+}
+
+.button {
+  padding-left: 10px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}

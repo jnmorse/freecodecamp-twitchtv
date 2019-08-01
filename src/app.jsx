@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchChannels } from './actions';
+import { loadChannelList } from './actions';
 import { ConnectedChannels as Channels } from './components/channels';
 import { ConnectedStreamModal as StreamModal } from './components/stream-modal';
 import { ConnectedNotification as Notification } from './components/notification';
+import { ConnectedAddChannelForm as AddChannelForm } from './components/add-channel-form';
 import { Layout } from './components/layout';
 import { SEO } from './components/seo';
 
@@ -23,14 +24,14 @@ if (!channels) {
 
 class App extends Component {
   static propTypes = {
-    fetchChannels: PropTypes.func.isRequired,
+    loadChannelList: PropTypes.func.isRequired,
     showModal: PropTypes.shape({
       visable: PropTypes.bool.isRequired
     }).isRequired
   };
 
   componentDidMount() {
-    this.props.fetchChannels(channels);
+    this.props.loadChannelList();
   }
 
   render() {
@@ -42,6 +43,7 @@ class App extends Component {
           keywords={['twitch', 'status']}
         />
 
+        <AddChannelForm />
         <Notification />
         <StreamModal />
         <Channels />
@@ -56,7 +58,7 @@ function mapStateToProps({ showModal }) {
 
 const ConnnectedApp = connect(
   mapStateToProps,
-  { fetchChannels }
+  { loadChannelList }
 )(App);
 
 export default ConnnectedApp;

@@ -3,9 +3,7 @@ import { TwitchAPI } from '../twitch';
 import { ActionTypes } from './types';
 
 export async function fetchActiveStreams(channels = []) {
-  const search = channels
-    .map(channel => `user_login=${channel.name}`)
-    .join('&');
+  const search = channels.map(channel => `user_login=${channel}`).join('&');
   const searchParams = new URLSearchParams(search);
 
   const response = await TwitchAPI.get('/streams', {
@@ -39,9 +37,7 @@ export function fetchChannels(channels = []) {
   return async dispatch => {
     if (channels.length) {
       try {
-        const search = channels
-          .map(channel => `login=${channel.name}`)
-          .join('&');
+        const search = channels.map(channel => `login=${channel}`).join('&');
         const searchParams = new URLSearchParams(search);
 
         const response = await TwitchAPI.get('/users', {

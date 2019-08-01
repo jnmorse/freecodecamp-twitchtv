@@ -30,27 +30,7 @@ export class OnlineChannel extends Component {
     ShowModal: PropTypes.func.isRequired
   };
 
-  displayIframe() {
-    const { login } = this.props;
-
-    const iframeSrc = new URL('https://player.twitch.tv/');
-
-    iframeSrc.searchParams.append('channel', login);
-    iframeSrc.searchParams.append('autoplay', false);
-    iframeSrc.searchParams.append('muted', false);
-
-    return (
-      <iframe
-        src={iframeSrc.href}
-        width={1080}
-        height={720}
-        frameBorder="0"
-        title="TwitchTV Player"
-        style={{ maxWidth: '100%' }}
-      />
-    );
-  }
-
+  // eslint-disable-next-line max-lines-per-function
   render() {
     const {
       display_name: displayName,
@@ -94,7 +74,18 @@ export class OnlineChannel extends Component {
           <div>{gameName}</div>
         </aside>
 
-        <footer className={styles.footer}># Watching: {viewerCount}</footer>
+        <footer className={styles.footer}>
+          <div># Watching: {viewerCount}</div>
+          <div>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href={`https://twitch.tv/${login}`}
+            >
+              Watch on TwitchTV
+            </a>
+          </div>
+        </footer>
       </section>
     );
   }

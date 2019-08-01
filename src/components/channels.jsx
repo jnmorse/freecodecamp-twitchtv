@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { fetchChannels } from '../actions';
 import { OfflineChannel } from './offline-channel';
 import { ConnectedOnlineChannel as OnlineChannel } from './online-channel';
 
@@ -9,6 +10,8 @@ import styles from './channels.css';
 
 class Channels extends Component {
   static propTypes = {
+    fetchChannels: PropTypes.func.isRequired,
+    channelsList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     channels: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -73,8 +76,11 @@ class Channels extends Component {
   }
 }
 
-function mapStateToProps({ channels }) {
-  return { channels };
+function mapStateToProps({ channels, channelsList }) {
+  return { channels, channelsList };
 }
 
-export const ConnectedChannels = connect(mapStateToProps)(Channels);
+export const ConnectedChannels = connect(
+  mapStateToProps,
+  { fetchChannels }
+)(Channels);
