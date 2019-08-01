@@ -80,3 +80,27 @@ export function fetchChannels(channels = []) {
     });
   };
 }
+
+export function fetchChannel(channel) {
+  return async dispatch => {
+    try {
+      const response = await TwitchAPI.get('/users', {
+        params: { login: channel }
+      });
+
+      if (response.status === 200) {
+        return dispatch({
+          type: ActionTypes.FetchChannelSuccess,
+          payload: response.data.data[0]
+        });
+      }
+
+      return dispatch({
+        type: ActionTypes.FetchChannelFail,
+        payload: 'Could not load channel'
+      });
+    } catch (error) {
+      return dispatch({ type: ActionTypes.FetchChannelFail, payload: error });
+    }
+  };
+}

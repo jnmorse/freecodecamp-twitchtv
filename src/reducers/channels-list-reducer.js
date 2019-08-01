@@ -12,6 +12,12 @@ export function channelsListReducer(state = [], action = { type: '' }) {
       return channels;
     }
 
+    case ActionTypes.DeleteChannel: {
+      const channels = state.filter(channel => channel !== action.payload);
+      localStorage.setItem('channels', JSON.stringify(channels));
+      return channels;
+    }
+
     default: {
       return state;
     }

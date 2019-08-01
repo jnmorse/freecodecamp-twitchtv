@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchChannels } from '../actions';
-import { OfflineChannel } from './offline-channel';
+import { ConnectedOfflineChannel as OfflineChannel } from './offline-channel';
 import { ConnectedOnlineChannel as OnlineChannel } from './online-channel';
 
 import styles from './channels.css';

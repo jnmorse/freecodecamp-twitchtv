@@ -22,6 +22,14 @@ export const channelsReducer = (state = [], action) => {
       return updateChannels;
     }
 
+    case ActionTypes.FetchChannelSuccess: {
+      return [...state, action.payload];
+    }
+
+    case ActionTypes.DeleteChannel: {
+      return state.filter(channel => channel.login !== action.payload);
+    }
+
     default: {
       return state;
     }

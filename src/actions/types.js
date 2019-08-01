@@ -6,5 +6,8 @@ export const ActionTypes = {
   HideStreamModal: 'HIDE_STREAM_MODAL',
   HideNotification: 'HIDE_NOTIFICATION',
   LoadChannelListSuccess: 'LOAD_CHANNEL_LIST_SUCCESS',
-  AddChannel: 'ADD_CHANNEL'
+  AddChannel: 'ADD_CHANNEL',
+  DeleteChannel: 'DELETE_CHANNEL',
+  FetchChannelSuccess: 'FETCH_CHANNEL_SUCCESS',
+  FetchChannelFail: 'FETCH_CHANNEL_FAIL'
 };

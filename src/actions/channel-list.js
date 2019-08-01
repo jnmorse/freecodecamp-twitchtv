@@ -1,6 +1,6 @@
 import { ActionTypes } from './types';
 import { defaultChannels } from '../default-channels';
-import { fetchChannels } from './stream-actions';
+import { fetchChannels, fetchChannel } from './stream-actions';
 
 export function loadedChannelList(channels) {
   return {
@@ -28,7 +28,20 @@ export function loadChannelList() {
 }
 
 export function addChannel(channel) {
-  return dispatch => {
-    dispatch({ type: ActionTypes.AddChannel, payload: channel });
+  return async dispatch => {
+    const action = await dispatch(fetchChannel(channel));
+
+    if ((action.type = ActionTypes.FetchChannelSuccess)) {
+      return dispatch({ type: ActionTypes.AddChannel, payload: channel });
+    }
+
+    return dispatch({ type: 'ADD_CHANNEL_FAIL' });
+  };
+}
+
+export function deleteChannel(name) {
+  return {
+    type: ActionTypes.DeleteChannel,
+    payload: name
   };
 }

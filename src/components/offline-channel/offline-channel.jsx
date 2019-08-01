@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import styles from './offline-channel.css';
 
+import { DeleteButton } from '../DeleteButton';
+
 export class OfflineChannel extends Component {
   static propTypes = {
     description: PropTypes.string.isRequired,
@@ -12,7 +14,9 @@ export class OfflineChannel extends Component {
     profile_image_url: PropTypes.string.isRequired,
     view_count: PropTypes.number.isRequired,
 
-    stream: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.bool])
+    stream: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.bool]),
+
+    deleteChannel: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -27,7 +31,8 @@ export class OfflineChannel extends Component {
       description,
       offline_image_url: offlineImageURL,
       stream,
-      login
+      login,
+      deleteChannel
     } = this.props;
     return (
       <section className={styles.section}>
@@ -49,6 +54,9 @@ export class OfflineChannel extends Component {
         <footer>
           <p>Status: {stream ? 'Online' : 'Offline'}</p>
           <p>View Count: {viewCount}</p>
+          <DeleteButton onDelete={() => deleteChannel(login)}>
+            Delete
+          </DeleteButton>
         </footer>
       </section>
     );
